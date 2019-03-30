@@ -1,0 +1,6 @@
+#include "version.h"
+
+// firmware_version = {{SEMVER}}
+const char firmware_version[] = {{SEMVER}};
+
+const char device_name[]  = "test_device";

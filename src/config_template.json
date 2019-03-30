@@ -1,0 +1,9 @@
+{
+    "version_file": "./",
+    "branch_default": "",
+    "changelog_allow": false,
+    "changelog_path": "./",
+    "template_path": "./template/template",
+    "template_word": "SEMVER",
+    "version_path": "./version2.c"
+}
