@@ -7,52 +7,16 @@ semver2
     pre-release - [a-zA-Z][a-zA-Z0-9_\.]{0,15}
     metadata - [a-zA-Z][a-zA-Z0-9_\.]{0,15}
 
-    без git: файл ./version/version.json - содержит актуальную версию проекта
-        историю изменений по версиям
+The configuration is read from the "config.json" file
+located in the directory where the script is run.
 
-    с git: версионирование на основе тэгов
+Example configuration(we run script from ./src/):
 
-    --init[=init_ver] инициализация версии проекта, 
-        если без параметров - 0.0.1,
-        инчае инициализация указанной версией
+    {
+        "template_path": "../example/version_template.c",
+        "version_path": "../example/version.c",
+        "template_word": "SEMVER",
+        "template_hash": "HASH_DATA"
+    }
 
-    --ver[=maj | min | pre | meta]
-        без параметров: увеличение на 1 patch, удалить pre-release, metadata
-        
-        maj увеличение на 1 major, установить в 0 minor, patch, удалить 
-            pre-release, metadata
-        min увеличение на 1 minor, установить в 0 patch, удалить pre-release, 
-            metadata
-        pre[:param] добавить идентификатор указанный после :
-                pre:rc
-                pre:alpha
-                pre:beta
-                pre:dev
-                pre:debug
-        pre добавить числовой номер после идентификатора через "."
-                rc      pre => pre:rc.0
-            если в конце идентификатора стоит число отделенное 
-            точкой или он единственный идентификатор, то увеличить на 1
-                rc.0    pre => pre:rc.1
-        meta[:param] добавить информацию описывающую текущую версию.
-            - если версии отличаются только тэгом meta, то это равнозначные 
-                версии;
-            - без параметров в качестве информации вставляется хэш коммита;
-            к существующему тэгу через '.';
-
-    --branch=branch_name указание, в какую ветку сохранить версию
-
-    --changelog[=path] создать файл ./version/changelog.txt или по указанному 
-        пути
-        в changelog попадут только текст из коммитов, помеченный как:
-            #changelog
-
-    --build - создать файл с текущей версией проекта
-         если коммит без тэга (количество коммитов после последнего тэга > 0),
-            то в конец версии добавляется через "." кол-во коммитов от 
-            последнего тэга (revision)
-
-    --build_hash - создать файл с текущей версией проекта со вставкой хэша
-        коммита в meta тэг
-
-    без параметров - вывести версию утилиты и краткую справку
+All paths must exist.
