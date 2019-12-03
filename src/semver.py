@@ -36,29 +36,24 @@ def parseVcsVersion(vs):
     return match.groups() if match else ''
 
 
+
 def buildVersionString(ver):
     """
       0     1      2      3             4       5
     major.minor.patch[-pre-release][+metadata].\\d+
     """
     semver = ''
-    if ver:
-        for (x, item) in list(zip(range(len(ver)), ver)):
-            if item is None:
-                continue
+    if not ver:
+        return '0.0.0'
 
-            sep = '.'
-            if x == 0:
-                sep = ''
-            elif x == 3:
-                sep = '-'
-            elif x == 4:
-                sep = '+'
-            elif x == 5 and item == '0':
-                continue
-            semver += sep + item
-    else:
-        semver = '0.0.0'
+    sep = ('', '.', '.', '-', '+', '')
+    for x, item in enumerate(ver):
+        if item is None:
+            continue
+
+        if x == 5 and item == '0':
+            continue
+        semver += sep[x] + item
 
     return semver
 
