@@ -1,7 +1,10 @@
 import os
+import sys
 import re
 import json
 
+
+dir_path = os.path.dirname(sys.argv[0])
 
 def getVersionFromVcs():
     """
@@ -46,7 +49,7 @@ def buildVersionString(ver):
     if not ver:
         return '0.0.0'
 
-    sep = ('', '.', '.', '-', '+', '')
+    sep = ('', '.', '.', '-', '+', '.')
     for x, item in enumerate(ver):
         if item is None:
             continue
@@ -66,8 +69,8 @@ def getHashFromVcs():
     except Exception as ex:
         print('Exception b:', ex)
     hash_code = myCmd[:10]
-    date = myCmd[-11:].replace('-', '').strip()
-    return hash_code + ' ' + date
+    date = myCmd[-11:].strip()
+    return date + ' ' + hash_code
 
 
 def buildVersionFile(cfg):
@@ -79,9 +82,9 @@ def buildVersionFile(cfg):
 
 
 def buildFromTemplate(cfg, str_ver, hash_date):
-    template = open(cfg['template_path'], 'r')
+    template = open(dir_path + '/' + cfg['template_file'], 'r')
 
-    ver_file = open(cfg['version_path'], 'w')
+    ver_file = open(dir_path + '/' + cfg['version_path'], 'w')
 
     for line in template:
         line = re.sub(
@@ -102,13 +105,13 @@ def buildFromTemplate(cfg, str_ver, hash_date):
 
 def readConfig():
     config = {
-        "template_path": "./version_template.c",
+        "template_file": "version_template.c",
         "template_word": "SEMVER",
         "template_hash": "HASH_DATA",
         "version_path": "./version.c"
     }
     try:
-        with open("config.json", "r") as config_file:
+        with open(dir_path + "/config.json", "r") as config_file:
             config = json.load(config_file)
     except OSError as ex:
         print('ERROR read configuration.', ex)
