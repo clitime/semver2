@@ -65,11 +65,15 @@ def getHashFromVcs():
     """get last commit hash and return 10 character"""
     myCmd = ''
     try:
-        myCmd = os.popen('git show -s --format="%H %ad" --date=short').read()
+        myCmd = os.popen('git rev-parse --short=10 HEAD').read()
     except Exception as ex:
         print('Exception b:', ex)
-    hash_code = myCmd[:10]
-    date = myCmd[-11:].strip()
+    hash_code = myCmd.strip()
+    try:
+        myCmd = os.popen('git show -s --format=%as').read()
+    except Exception as ex:
+        print('Exception b:', ex)
+    date = myCmd.strip()
     return date + ' ' + hash_code
 
 
