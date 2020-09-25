@@ -47,7 +47,7 @@ def buildVersionString(ver):
     """
     semver = ''
     if not ver:
-        return '0.0.0'
+        return '0.0.1'
 
     sep = ('', '.', '.', '-', '+', '.')
     for x, item in enumerate(ver):
